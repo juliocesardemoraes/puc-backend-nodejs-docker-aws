@@ -9,9 +9,8 @@ permissions:
 
 jobs:
   aproval:
-    name: deploy
     runs-on: ubuntu-latest
-    needs: build
+    name: deploy
     steps:
       - uses: trstringer/manual-approval@v1
         with:
