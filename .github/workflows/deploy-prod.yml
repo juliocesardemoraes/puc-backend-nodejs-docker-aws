@@ -8,17 +8,6 @@ permissions:
   contents: read
 
 jobs:
-  aproval:
-    runs-on: ubuntu-latest
-    name: deploy
-    steps:
-      - uses: trstringer/manual-approval@v1
-        with:
-          secret: ${{ github.TOKEN }}
-          approvers: juliocesardemoraes
-      - name: Deploy to production
-        run: echo deploy confirmed
-
   EC2-Deploy:
     runs-on: ubuntu-latest
     needs: aproval
