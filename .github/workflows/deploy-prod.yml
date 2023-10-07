@@ -8,6 +8,20 @@ permissions:
   contents: read
 
 jobs:
+  manual_approval:
+    runs-on: ubuntu-latest
+    outputs:
+      props: ${{ steps.set_output.outputs }}
+    steps:
+      - id: set_output
+        name: Set Output
+        run: echo "::set-output name=props::approve"
+      - name: Manual Approval
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+        uses: wei/github-approval-action@v2
+        with:
+          token: ${{ github.TOKEN }}
+
   EC2-Deploy:
     runs-on: ubuntu-latest
     needs: manual_approval
@@ -24,17 +38,3 @@ jobs:
           aws_default_region: us-east-1
 
           app_port: 3000
-
-manual_approval:
-  runs-on: ubuntu-latest
-  outputs:
-    props: ${{ steps.set_output.outputs }}
-  steps:
-    - id: set_output
-      name: Set Output
-      run: echo "::set-output name=props::approve"
-    - name: Manual Approval
-      if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-      uses: wei/github-approval-action@v2
-      with:
-        token: ${{ github.TOKEN }}
