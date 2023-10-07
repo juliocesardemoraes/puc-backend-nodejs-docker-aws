@@ -2,17 +2,17 @@ name: Deploy
 
 on:
   pull_request_review:
-    types: [submitted]
+    types: [closed]
 
 permissions:
   contents: read
 
 jobs:
   approved:
-    if: github.event.review.state == 'APPROVED'
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - run: echo "This PR was approved"
+      - run: echo "This PR was merged. Deploying to AWS now!"
 
   EC2-Deploy:
     runs-on: ubuntu-latest
